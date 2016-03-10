@@ -89,6 +89,8 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableview reloadData];
             });
+        } else {
+            NSLog(@"error: %@", error);
         }
     }];
 }
@@ -98,6 +100,8 @@
     [[LiveStreamSessionManager manager] createTube:@"ley" description:@"test" connectLimit:10 callback:^(id  _Nullable responseObject, NSError * _Nullable error) {
         if (!error) {
             [self getTubeList];
+        } else {
+            NSLog(@"error: %@", error);
         }
     }];
 }

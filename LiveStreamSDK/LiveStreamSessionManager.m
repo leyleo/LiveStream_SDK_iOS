@@ -236,11 +236,13 @@ NSString * const ErrorDomain = @"com.sinacloud.LiveStreamSession";
                     }
                 } else {
                     NSInteger code = [[jsonDic valueForKey:@"code"] integerValue];
-                    id data = [jsonDic valueForKey:@"data"];
+                    
                     if (callback) {
                         if (code != 0) {
-                            callback(nil, [self errorWithCode:code andMessage:data]);
+                            NSString *message = [jsonDic valueForKey:@"message"];
+                            callback(nil, [self errorWithCode:code andMessage:message]);
                         } else {
+                            id data = [jsonDic valueForKey:@"data"];
                             callback(data, nil);
                         }
                     }
