@@ -21,6 +21,7 @@
  @return NSURLSessionDataTask实例
  */
 -(NSURLSessionDataTask *_Nullable)getTubeList:(nullable void (^)(id _Nullable responseObject, NSError *_Nullable error))callback;
+
 /**
  创建频道，成功时callback返回tube_id（频道Id）
  @param name 频道名称
@@ -32,7 +33,17 @@
 -(NSURLSessionDataTask *_Nullable)createTube:(NSString *_Nonnull)name
                                  description:(NSString *_Nullable)description
                                 connectLimit:(NSInteger)limit
-                                    callback:(nullable void (^)(id _Nullable responseObject, NSError *_Nullable error))callback;
+                                    callback:(nullable void (^)(id _Nullable responseObject, NSError *_Nullable error))callback __deprecated;
+/**
+ 创建频道，成功时callback返回tube_id（频道Id）
+ @param name 频道名称
+ @param description 频道描述
+ @param callback 回调方法
+ @return NSURLSessionDataTask实例
+ */
+-(NSURLSessionDataTask *_Nullable)createTube:(NSString *_Nonnull)name
+                                 description:(NSString *_Nullable)description
+                                    callback:(nullable void (^)(id _Nullable responseObject, NSError *_Nullable error))callback ;
 /**
  删除频道
  @param tubeId 频道Id
@@ -54,6 +65,18 @@
                                         name:(NSString *_Nullable)name
                                  description:(NSString *_Nullable)description
                                   conn_limit:(NSInteger)limit
+                                    callback:(nullable void (^)(id _Nullable responseObject, NSError *_Nullable error))callback __deprecated;
+/**
+ 更新频道信息
+ @param tubeId 频道Id
+ @param name 频道名称
+ @param description 频道描述
+ @param callback 回调方法
+ @return NSURLSessionDataTask实例
+ */
+-(NSURLSessionDataTask *_Nullable)updateTube:(NSString *_Nonnull)tubeId
+                                        name:(NSString *_Nullable)name
+                                 description:(NSString *_Nullable)description
                                     callback:(nullable void (^)(id _Nullable responseObject, NSError *_Nullable error))callback;
 /**
  查询频道信息，包括直播地址，推流地址等

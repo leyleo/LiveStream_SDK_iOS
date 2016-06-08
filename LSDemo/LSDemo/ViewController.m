@@ -97,7 +97,7 @@
 
 -(void)createTube
 {
-    [[LiveStreamSessionManager manager] createTube:@"ley" description:@"test" connectLimit:10 callback:^(id  _Nullable responseObject, NSError * _Nullable error) {
+    [[LiveStreamSessionManager manager] createTube:@"hello" description:@"hello livestream" callback:^(id  _Nullable responseObject, NSError * _Nullable error) {
         if (!error) {
             [self getTubeList];
         } else {

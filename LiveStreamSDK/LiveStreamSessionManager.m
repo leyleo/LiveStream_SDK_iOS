@@ -77,7 +77,7 @@ NSString * const ErrorDomain = @"com.sinacloud.LiveStreamSession";
 -(NSURLSessionDataTask *_Nullable)createTube:(NSString *_Nonnull)name
                                  description:(NSString *_Nullable)description
                                 connectLimit:(NSInteger)limit
-                                    callback:(nullable void (^)(id _Nullable responseObject, NSError * _Nullable error))callback
+                                    callback:(nullable void (^)(id _Nullable responseObject, NSError *_Nullable error))callback __deprecated
 {
     if (!name) {
         if (callback) {
@@ -87,9 +87,32 @@ NSString * const ErrorDomain = @"com.sinacloud.LiveStreamSession";
     }
     NSMutableString *paramString = [[NSMutableString alloc] initWithFormat:@"conn_limit=%ld&name=%@",limit,name];
     if (description) {
-        [paramString appendFormat:@"&description=%@",name];
+        [paramString appendFormat:@"&description=%@",description];
     }
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/tube/create?%@",BaseUrl,paramString]];
+    NSString *urlString = [NSString stringWithFormat:@"%@/tube/create?%@",BaseUrl,paramString];
+    NSString *encode = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:encode];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    return [self startRequest:request callback:callback];
+}
+
+-(NSURLSessionDataTask *_Nullable)createTube:(NSString *_Nonnull)name
+                                 description:(NSString *_Nullable)description
+                                    callback:(nullable void (^)(id _Nullable responseObject, NSError * _Nullable error))callback
+{
+    if (!name) {
+        if (callback) {
+            callback(nil, [self errorWithCode:-1 andMessage:@"can't find name"]);
+        }
+        return nil;
+    }
+    NSMutableString *paramString = [[NSMutableString alloc] initWithFormat:@"name=%@",name];
+    if (description) {
+        [paramString appendFormat:@"&description=%@",description];
+    }
+    NSString *urlString = [NSString stringWithFormat:@"%@/tube/create?%@",BaseUrl,paramString];
+    NSString *encode = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:encode];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     return [self startRequest:request callback:callback];
 }
@@ -121,6 +144,29 @@ NSString * const ErrorDomain = @"com.sinacloud.LiveStreamSession";
         return nil;
     }
     NSMutableString *paramString = [[NSMutableString alloc] initWithFormat:@"tube_id=%@&conn_limit=%ld",tubeId,limit];
+    if (name) {
+        [paramString appendFormat:@"&name=%@",name];
+    }
+    if (description) {
+        [paramString appendFormat:@"&description=%@",description];
+    }
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/tube/update?%@",BaseUrl,paramString]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    return [self startRequest:request callback:callback];
+}
+
+-(NSURLSessionDataTask *_Nullable)updateTube:(NSString *_Nonnull)tubeId
+                                        name:(NSString *_Nullable)name
+                                 description:(NSString *_Nullable)description
+                                    callback:(nullable void (^)(id _Nullable responseObject, NSError *_Nullable error))callback
+{
+    if (!tubeId) {
+        if (callback) {
+            callback(nil, [self errorWithCode:-1 andMessage:@"can't find tubeId"]);
+        }
+        return nil;
+    }
+    NSMutableString *paramString = [[NSMutableString alloc] initWithFormat:@"tube_id=%@",tubeId];
     if (name) {
         [paramString appendFormat:@"&name=%@",name];
     }

@@ -166,7 +166,7 @@
 -(void)updateTubeInfo
 {
     NSString *current = [NSString stringWithFormat:@"%.0f",[NSDate date].timeIntervalSince1970];
-    [[LiveStreamSessionManager manager] updateTube:self.tubeId name:current description:current conn_limit:5 callback:^(id  _Nullable responseObject, NSError * _Nullable error) {
+    [[LiveStreamSessionManager manager] updateTube:self.tubeId name:current description:current callback:^(id  _Nullable responseObject, NSError * _Nullable error) {
         if (error) {
             NSLog(@"update error: %@", error.localizedDescription);
         } else {
